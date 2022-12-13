@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/homeNav">
+
+    <navigation android:id="@+id/homeNav" app:startDestination="@id/navigation_home">
+        <fragment
+            android:id="@+id/navigation_home"
+            android:name="com.intelligent.accentflix.ui.home.HomeFragment"
+            android:label="@string/title_home"
+            tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_HomeFragment_to_HomeDetailFragment"
+                app:destination="@id/navigation_home_detail" />
+        </fragment>
+        <fragment
+            android:id="@+id/navigation_home_detail"
+            android:name="com.intelligent.accentflix.ui.home.detail.HomeDetailFragment"
+            android:label="@string/title_home_detail"
+            tools:layout="@layout/fragment_home_details" />
+    </navigation>
+
+    <navigation android:id="@+id/favNav" app:startDestination="@id/navigation_favorites">
+        <fragment
+            android:id="@+id/navigation_favorites"
+            android:name="com.intelligent.accentflix.ui.favorites.FavoritesFragment"
+            android:label="@string/title_favorites"
+            tools:layout="@layout/fragment_favorites" >
+            <action
+                android:id="@+id/action_favoritesFragment_to_favoritesFragmentDetail"
+                app:destination="@id/navigation_favorites_detail" />
+        </fragment>
+        <fragment
+            android:id="@+id/navigation_favorites_detail"
+            android:name="com.intelligent.accentflix.ui.favorites.details.FavoriteDetailFragment"
+            android:label="@string/title_home_detail"
+            tools:layout="@layout/fragment_home_details" />
+    </navigation>
+
+</navigation>

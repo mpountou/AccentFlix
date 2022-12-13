@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="movie_photo"
+            type="com.intelligent.accentflix.data.local.entities.Photo" />
+    </data>
+
+    <ImageView
+        android:id="@+id/movie_photo_image"
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:padding="2dp"
+        app:loadImageUrl="@{movie_photo.image}"
+        tools:src="@tools:sample/backgrounds/scenic"/>
+
+</layout>

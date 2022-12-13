@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="favorite_movie"
+            type="com.intelligent.accentflix.data.local.entities.Movie" />
+        <variable
+            name="clickListener"
+            type="com.intelligent.accentflix.adapters.favorites.FavoriteMovieClickListener" />
+        <variable
+            name="deleteClickListener"
+            type="com.intelligent.accentflix.adapters.favorites.DeleteFavoriteMovieClickListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/favorite_movie_card"
+        android:layout_width="200dp"
+        android:layout_height="360dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/favorite_movie_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/favorite_movie_image"
+                android:layout_width="0dp"
+                android:layout_height="280dp"
+                android:adjustViewBounds="true"
+                android:onClick="@{() -> clickListener.onClick(favorite_movie)}"
+                android:scaleType="fitXY"
+                app:loadImageUrl="@{favorite_movie.image}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/remove_favorite_button"
+                android:text="@string/remove_favorites"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_delete"
+                app:iconGravity="textStart"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favorite_movie_image"
+                android:onClick="@{() -> deleteClickListener.onClick(favorite_movie)}"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

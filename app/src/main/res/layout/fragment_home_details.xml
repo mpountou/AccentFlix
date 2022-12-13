@@ -1,0 +1,356 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.intelligent.accentflix.ui.home.ApiStatus" />
+        <variable
+            name="viewModel"
+            type="com.intelligent.accentflix.ui.home.HomeViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="@{viewModel.movie.title}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Movie Title" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@{viewModel.movie.description}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/movie_title"
+                tools:text="2022" />
+
+            <TextView
+                android:id="@+id/content_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@{viewModel.movie.contentRating}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintStart_toEndOf="@+id/description"
+                app:layout_constraintTop_toBottomOf="@+id/movie_title"
+                tools:text="TV-14" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@{viewModel.movie.runtimeStr}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintStart_toEndOf="@+id/content_rating"
+                app:layout_constraintTop_toBottomOf="@+id/movie_title"
+                tools:text="45m" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/grid_movie_photos"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:clipToPadding="false"
+                android:padding="6dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
+                app:photoData="@{viewModel.moviePhotos}"
+                app:spanCount="1"
+                tools:itemCount="16"
+                tools:listitem="@layout/movie_photo_item" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/empty_photos"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
+                android:visibility="gone"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:bindStatus="@{viewModel.status}" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/movie_detail_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/grid_movie_photos">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/movie_poster"
+                        android:layout_width="120dp"
+                        android:layout_height="180dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="fitXY"
+                        app:loadImageUrl="@{viewModel.movie.image}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/grid_movie_genres"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:padding="6dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/movie_poster"
+                        app:layout_constraintTop_toTopOf="@+id/movie_poster"
+                        app:genreData="@{viewModel.movie.genreList}"
+                        app:spanCount="1"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/movie_genre_item" />
+
+                    <TextView
+                        android:id="@+id/plot"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="top"
+                        android:padding="8dp"
+                        android:text="@{viewModel.movie.plot}"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        app:layout_constraintBottom_toBottomOf="@+id/movie_poster"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/movie_poster"
+                        app:layout_constraintTop_toBottomOf="@+id/grid_movie_genres"
+                        tools:text="Plot of the movie. Plot of the movie. Plot of the movie. Plot of the movie." />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/addFavoritesButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/add_favorites"
+                        android:textAlignment="textStart"
+                        android:visibility="@{(viewModel.status != ApiStatus.ERROR &amp;&amp; viewModel.favoriteMovie == null) ? View.VISIBLE : View.GONE, default = gone}"
+                        android:onClick="@{() -> viewModel.addMovieToFavorites()}"
+                        android:textAllCaps="false"
+                        app:icon="@drawable/ic_favorite"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@+id/movie_poster" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/removeFavoritesButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/delete_favorites"
+                        android:textAlignment="textStart"
+                        android:visibility="@{(viewModel.status != ApiStatus.ERROR &amp;&amp; viewModel.favoriteMovie != null) ? View.VISIBLE : View.GONE, default = gone}"
+                        android:onClick="@{() -> viewModel.deleteMovieFromFavorites()}"
+                        android:textAllCaps="false"
+                        app:icon="@drawable/ic_delete"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/movie_poster"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rating_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/movie_detail_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/rating_card_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/star_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_baseline_star_24"
+                        app:layout_constraintEnd_toStartOf="@+id/rate_image"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/movie_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.movie.imDbRating}"
+                        app:layout_constraintEnd_toEndOf="@+id/star_image"
+                        app:layout_constraintStart_toStartOf="@+id/star_image"
+                        app:layout_constraintTop_toBottomOf="@+id/star_image"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        tools:text="8.1/10"/>
+
+                    <TextView
+                        android:id="@+id/total_movie_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="@{viewModel.movie.imDbRatingVotes}"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/movie_rating"
+                        app:layout_constraintStart_toStartOf="@+id/movie_rating"
+                        app:layout_constraintTop_toBottomOf="@+id/movie_rating"
+                        tools:text="8110" />
+
+                    <ImageView
+                        android:id="@+id/rate_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_star_border_blue"
+                        app:layout_constraintEnd_toStartOf="@+id/metascore_text"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/star_image"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/rate_this_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rate_this"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        android:textColor="#046AD8"
+                        app:layout_constraintEnd_toEndOf="@+id/rate_image"
+                        app:layout_constraintStart_toStartOf="@+id/rate_image"
+                        app:layout_constraintTop_toBottomOf="@+id/rate_image" />
+
+                    <TextView
+                        android:id="@+id/metascore_text"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/holo_green_light"
+                        android:gravity="center"
+                        android:text="@{viewModel.movie.metacriticRating}"
+                        android:textColor="@color/white"
+
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/rate_image"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/metascore_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/metascore"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintEnd_toEndOf="@+id/metascore_text"
+                        app:layout_constraintStart_toStartOf="@+id/metascore_text"
+                        app:layout_constraintTop_toBottomOf="@+id/metascore_text" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cast_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/rating_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cast_card_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/cast_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/cast"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/grid_movie_actors"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:clipToPadding="false"
+                        android:padding="6dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cast_title"
+                        app:actorData="@{viewModel.movieCast.actors}"
+                        app:spanCount="1"
+                        tools:itemCount="16"
+                        tools:listitem="@layout/movie_item" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/empty_actors"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cast_title"
+                        android:visibility="gone"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:bindStatus="@{viewModel.status}" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/cast_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

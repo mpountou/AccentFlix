@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">AccentFlix</string>
+    <string name="title_home">Home</string>
+    <string name="title_home_detail">Movie Details</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="add_favorites">Add to favorites</string>
+    <string name="delete_favorites">Delete from favorites</string>
+    <string name="cast">Cast</string>
+    <string name="error_api_request">Failed to fetch data from server. Probably due to internet connection.</string>
+    <string name="error_search_request">Search term can not be empty</string>
+    <string name="remove_favorites">Remove</string>
+    <string name="rate_this">Rate this</string>
+    <string name="metascore">Metascore</string>
+</resources>
